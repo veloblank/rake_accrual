@@ -28,41 +28,41 @@ Return
 
 TableCounter:
 
-    numtables := 0
+  numtables := 0
 
-    WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
-    Loop,%Id%
-    {
-       Hwnd:=id%A_index%
-       
-       
-         numtables += 1
-        IF  Hwnd not in  %TableHwndList% 
-        { 
-        	WinGettitle,Title,ahk_id%hwnd%
-      		IF  Instr(Title," Logged In as ")
-       		{
-        	
-                	
-                	TableHwndList:= TableHwndList ?  TableHwndList . "," . Hwnd : Hwnd
-       				TotalTablesOpened+=1
- 	        	
-       		}    
-    	}
-   }
-
-
-    if (numtables != lasttables) OR (SaveTotalTablesOpened != TotalTablesOpened)
-    {	
-     
-      IF TrayCounter 
-       WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% / %TotalTablesOpened% 
-       
-      GuiControl,, MyControl, %numtables%
-        lasttables = %numtables%
-        SaveTotalTablesOpened = %TotalTablesOpened%
-        GuiControl,, TotalTablesOpened,%TotalTablesOpened%
+  WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
+  Loop,%Id%
+  {
+      Hwnd:=id%A_index%
+      
+      
+        numtables += 1
+      IF  Hwnd not in  %TableHwndList% 
+      { 
+        WinGettitle,Title,ahk_id%hwnd%
+        IF  Instr(Title," Logged In as ")
+        {
+        
+                
+                TableHwndList:= TableHwndList ?  TableHwndList . "," . Hwnd : Hwnd
+            TotalTablesOpened+=1
+          
+        }    
     }
+  }
+
+
+  if (numtables != lasttables) OR (SaveTotalTablesOpened != TotalTablesOpened)
+  {	
+    
+    IF TrayCounter 
+      WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% / %TotalTablesOpened% 
+      
+    GuiControl,, MyControl, %numtables%
+      lasttables = %numtables%
+      SaveTotalTablesOpened = %TotalTablesOpened%
+      GuiControl,, TotalTablesOpened,%TotalTablesOpened%
+  }
     
 return
 
