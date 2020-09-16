@@ -1,6 +1,6 @@
-#NoEnv  
-SendMode Input  
-SetWorkingDir %A_ScriptDir%  
+#NoEnv 
+SendMode Input 
+SetWorkingDir %A_ScriptDir% 
 #SingleInstance force
 
 numtables:=0
@@ -24,7 +24,7 @@ TableCounterHwnd:=winExist()
 
 OnMessage(0x201, "WM_LBUTTONDOWN")
 SetTimer,TableCounter,1000
-Return    
+Return 
 
 TableCounter:
 
@@ -33,42 +33,39 @@ TableCounter:
   WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
   Loop,%Id%
   {
-      Hwnd:=id%A_index%
-      
-      
-        numtables += 1
-      IF  Hwnd not in  %TableHwndList% 
-      { 
-        WinGettitle,Title,ahk_id%hwnd%
-        IF  Instr(Title," Logged In as ")
-        {
-        
-                
-                TableHwndList:= TableHwndList ?  TableHwndList . "," . Hwnd : Hwnd
-            TotalTablesOpened+=1
-          
-        }    
+    Hwnd:=id%A_index%
+
+    numtables += 1
+    IF Hwnd not in %TableHwndList% 
+    { 
+      WinGettitle,Title,ahk_id%hwnd%
+      IF Instr(Title," Logged In as ")
+      {
+
+        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TotalTablesOpened+=1
+
+      } 
     }
   }
 
-
   if (numtables != lasttables) OR (SaveTotalTablesOpened != TotalTablesOpened)
   {	
-    
+
     IF TrayCounter 
       WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% / %TotalTablesOpened% 
-      
+
     GuiControl,, MyControl, %numtables%
-      lasttables = %numtables%
-      SaveTotalTablesOpened = %TotalTablesOpened%
-      GuiControl,, TotalTablesOpened,%TotalTablesOpened%
+    lasttables = %numtables%
+    SaveTotalTablesOpened = %TotalTablesOpened%
+    GuiControl,, TotalTablesOpened,%TotalTablesOpened%
   }
-    
+
 return
 
 Minimize: 
-Gui,Minimize
-WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% / %TotalTablesOpened%
+  Gui,Minimize
+  WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% / %TotalTablesOpened%
 Return
 
 GuiSize:
@@ -77,12 +74,12 @@ GuiSize:
 Return
 
 GuiContextMenu:
-Menu, TableCounter, Show  
+  Menu, TableCounter, Show 
 Return
 
 ResetCounter:
-TotalTablesOpened:=0
-GuiControl,, TotalTablesOpened,0 
+  TotalTablesOpened:=0
+  GuiControl,, TotalTablesOpened,0 
 Return
 
 GuiClose:
