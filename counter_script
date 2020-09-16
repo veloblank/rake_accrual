@@ -63,6 +63,7 @@ TableCounter:
         SaveTotalTablesOpened = %TotalTablesOpened%
         GuiControl,, TotalTablesOpened,%TotalTablesOpened%
     }
+    
 return
 
 Minimize: 
