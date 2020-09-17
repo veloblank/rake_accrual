@@ -1,11 +1,11 @@
 #NoEnv 
-SendMode Input 
-SetWorkingDir %A_ScriptDir% 
 #SingleInstance force
+SendMode Input 
+SetFormat, Float, 0.2
+SetWorkingDir %A_ScriptDir% 
 
 numtables:=0
-TotalTablesOpened:=0
-Rake :=0
+TotalTablesOpened:=0.00
 
 Menu,TableCounter,Add,Minimize To Tray,Minimize
 Menu,TableCounter,Add,Reset Counter, ResetCounter
@@ -16,9 +16,7 @@ Gui, Color, 000000
 Gui, Font, s20 cWhite, Verdana
 
 Gui,Margin,5,5
-Gui, Add, Text, Center vMyControl,00
-Gui, Add, Text, Center y+ cGreen vTotalTablesOpened,00
-Gui, Add, Text, Center y+ cFF8C00 vRake,$0.00
+Gui, Add, Text, Center y+ cFF8C00 vTotalTablesOpened,$0.00
 Gui, Show, AutoSize, Tbls
 TableCounterHwnd:=winExist()
 
@@ -27,7 +25,6 @@ SetTimer,TableCounter,1000
 Return 
 
 TableCounter:
-
   numtables := 0
 
   WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
@@ -39,11 +36,11 @@ TableCounter:
     IF Hwnd not in %TableHwndList% 
     { 
       WinGettitle,Title,ahk_id%hwnd%
-      IF Instr(Title," Logged In as ")
+      IF Instr(Title," Logged in as ")
       {
 
         TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
-        TotalTablesOpened+=1
+        TotalTablesOpened+= 0.77
 
       } 
     }
@@ -57,7 +54,8 @@ TableCounter:
 
     GuiControl,, MyControl, %numtables%
     lasttables = %numtables%
-    SaveTotalTablesOpened = %TotalTablesOpened%
+    dollar = $
+    SaveTotalTablesOpened = %dollar%%TotalTablesOpened%
     GuiControl,, TotalTablesOpened,%TotalTablesOpened%
   }
 
