@@ -36,13 +36,15 @@ TableCounter:
     IF Hwnd not in %TableHwndList% 
     { 
       WinGetTitle,Title,ahk_id%hwnd%
-      IF InStr(Title," Logged in as ")
-      {
-
+      IF InStr(Title," Logged in as ") And InStr(Title, " $10.00 ") {
         TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
         TotalTablesOpened+= 0.77
-
-      } 
+      } Else if InStr(Title, " Logged in as ") And InStr(Title, " $5.00 " {
+        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TotalTablesOpened+= 0.40
+      } Else {
+        TotalTablesOpened= "Log In"
+      }
     }
   }
 
