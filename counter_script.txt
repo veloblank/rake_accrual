@@ -17,7 +17,7 @@ Gui, Font, s20 cWhite, Verdana
 
 Gui,Margin,5,5
 Gui, Add, Text, Center y+ cFF8C00 vTotalTablesOpened,$0.00
-Gui, Show, AutoSize, Tbls
+Gui, Show, AutoSize, Rake
 TableCounterHwnd:=winExist()
 
 OnMessage(0x201, "WM_LBUTTONDOWN")
@@ -35,8 +35,8 @@ TableCounter:
     numtables += 1
     IF Hwnd not in %TableHwndList% 
     { 
-      WinGettitle,Title,ahk_id%hwnd%
-      IF Instr(Title," Logged in as ")
+      WinGetTitle,Title,ahk_id%hwnd%
+      IF InStr(Title," Logged in as ")
       {
 
         TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
