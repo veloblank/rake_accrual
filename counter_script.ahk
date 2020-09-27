@@ -26,10 +26,11 @@ SetTimer,TableCounter,1000
 Return 
 
 Submit:
-  file := FileOpen("daily_rake.txt","a")
+  file := FileOpen("daily_rake.csv","a")
   FormatTime, TimeString,, ShortDate
-  file.write("," . "{" . TimeString . ":" . " " . TotalCurrentRake . "}")
+  file.write(TimeString . "," . TotalCurrentRake . ",")
   file.close()
+  FileAppend, `n, daily_rake.csv
   TotalCurrentRake:=0.00
 return
 
