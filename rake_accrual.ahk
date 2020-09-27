@@ -25,15 +25,6 @@ OnMessage(0x201, "WM_LBUTTONDOWN")
 SetTimer,TableCounter,1000
 Return 
 
-Submit:
-  file := FileOpen("daily_rake.csv","a")
-  FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalCurrentRake . ",")
-  file.close()
-  FileAppend, `n, daily_rake.csv
-  TotalCurrentRake:=0.00
-return
-
 TableCounter:
   numtables := 0
 
@@ -84,6 +75,15 @@ TableCounter:
     GuiControl,, TotalCurrentRake,%TotalCurrentRake%
   }
 
+return
+
+Submit:
+  file := FileOpen("daily_rake.csv","a")
+  FormatTime, TimeString,, ShortDate
+  file.write(TimeString . "," . TotalCurrentRake . ",")
+  file.close()
+  FileAppend, `n, daily_rake.csv
+  TotalCurrentRake:=0.00
 return
 
 Minimize: 
