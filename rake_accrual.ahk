@@ -70,8 +70,6 @@ Submit:
   file.write(TimeString . "," . TotalCurrentRake . ",")
   file.close()
   FileAppend, `n, daily_rake.csv
-  file.write(TableHwndList)
-  file.close()
   TotalCurrentRake:=0.00
 return
 
