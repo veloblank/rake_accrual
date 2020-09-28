@@ -39,7 +39,6 @@ TableCounter:
     { 
       ;WinGetTitle retrieves the title of the specified window.
       WinGetTitle,Title,ahk_id%hwnd%
-<<<<<<< HEAD
       IF InStr (Title, "$100") {
         TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
         TotalCurrentRake+= 7.00
@@ -57,25 +56,6 @@ TableCounter:
         TotalCurrentRake+= 0.40
       } Else if InStr(Title, "$1") {
         TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
-=======
-      IF InStr(Title," Logged in as ") And InStr(Title, " $100 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalCurrentRake+= 7.00
-      } Else if InStr(Title, " Logged in as ") And InStr(Title, " $50 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalCurrentRake+= 3.66
-      } Else if InStr(Title, " Logged in as ") And InStr(Title, " $20 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalCurrentRake+= 1.50
-      } Else if InStr(Title, " Logged in as ") And InStr(Title, " $10 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalCurrentRake+= 0.77
-      } Else if InStr(Title, " Logged in as ") And InStr(Title, " $5 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalCurrentRake+= 0.40
-      } Else if InStr(Title, " Logged in as ") And InStr(Title, " $1 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
->>>>>>> 60ffb0201447baac811f551ccfcd0f564f85a283
         TotalCurrentRake+= 0.09
       } Else {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
@@ -99,5 +79,5 @@ ResetCounter:
 Return
 
 GuiClose:
-ExitApp
+  ExitApp
 Return
