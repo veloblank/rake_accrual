@@ -24,37 +24,41 @@ SetTimer,TableCounter,1000
 Return 
 
 TableCounter:
-  numtables := 0
+  ;WinGet, OutputVar, List , WinTitle, WinText, ExcludeTitle, ExcludeText
+  ;Retrieves the unique ID numbers of all existing windows that match the title/text parameters.
+  ;HWND is the window handle
 
-  WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
-  Loop,%Id%
+  WinGet, MyTablesArray, List, ahk_class PokerStarsTableFrameClass,, Program Manager
+  ;MyTablesArray is set to the number of items in the array.
+  Loop,%MyTablesArray%
   {
-    Hwnd:=id%A_index%
 
-    numtables += 1
-    IF Hwnd not in %TableHwndList% 
+    hwnd:=MyTablesArray%A_Index%
+
+    IF hwnd not in %TableHwndList% 
     { 
+      ;WinGetTitle retrieves the title of the specified window.
       WinGetTitle,Title,ahk_id%hwnd%
       IF InStr(Title," Logged in as ") And InStr(Title, " $100 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 7.00
       } Else if InStr(Title, " Logged in as ") And InStr(Title, " $50 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 3.66
       } Else if InStr(Title, " Logged in as ") And InStr(Title, " $20 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 1.50
       } Else if InStr(Title, " Logged in as ") And InStr(Title, " $10 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 0.77
       } Else if InStr(Title, " Logged in as ") And InStr(Title, " $5 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 0.40
       } Else if InStr(Title, " Logged in as ") And InStr(Title, " $1 ") {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 0.09
       } Else {
-        TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalCurrentRake+= 0.00
       }
     }
@@ -66,6 +70,8 @@ Submit:
   file.write(TimeString . "," . TotalCurrentRake . ",")
   file.close()
   FileAppend, `n, daily_rake.csv
+  file.write(TableHwndList)
+  file.close()
   TotalCurrentRake:=0.00
 return
 
