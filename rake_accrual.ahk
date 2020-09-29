@@ -40,24 +40,64 @@ TableCounter:
       IF InStr(Title, " Logged in as ") {
         TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
         TotalCurrentRake+= .40
+        IF InStr (Title, "$100") {
+          TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+          TotalCurrentRake+= 7.00
+        } Else if InStr(Title, "$50") {
+          TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+          TotalCurrentRake+= 3.66
+        } Else if InStr(Title, "$20") {
+          TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+          TotalCurrentRake+= 1.50
+        } Else if InStr(Title, "$10") {
+          TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+          TotalCurrentRake+= 0.77
+        } Else if InStr(Title, "$5") {
+          TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+          TotalCurrentRake+= 0.40
+        } Else if InStr(Title, "$1") {
+          TableHwndList:= TableHwndList ? TableHwndList . "," . Hwnd : Hwnd
+          =======
+          IF InStr(Title," Logged in as ") And InStr(Title, " $100 ") {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            TotalCurrentRake+= 7.00
+          } Else if InStr(Title, " Logged in as ") And InStr(Title, " $50 ") {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            TotalCurrentRake+= 3.66
+          } Else if InStr(Title, " Logged in as ") And InStr(Title, " $20 ") {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            TotalCurrentRake+= 1.50
+          } Else if InStr(Title, " Logged in as ") And InStr(Title, " $10 ") {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            TotalCurrentRake+= 0.77
+          } Else if InStr(Title, " Logged in as ") And InStr(Title, " $5 ") {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            TotalCurrentRake+= 0.40
+          } Else if InStr(Title, " Logged in as ") And InStr(Title, " $1 ") {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            >>>>>>> 60ffb0201447baac811f551ccfcd0f564f85a283
+            TotalCurrentRake+= 0.09
+          } Else {
+            TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+            TotalCurrentRake+= 0.00
+          }
+        }
       }
-    }
-  }
 
-Submit:
-  file := FileOpen("daily_rake.csv","a")
-  FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalCurrentRake . ",")
-  file.close()
-  FileAppend, `n, daily_rake.csv
-  TotalCurrentRake:=0.00
-return
+      Submit:
+        file := FileOpen("daily_rake.csv","a")
+        FormatTime, TimeString,, ShortDate
+        file.write(TimeString . "," . TotalCurrentRake . ",")
+        file.close()
+        FileAppend, `n, daily_rake.csv
+        TotalCurrentRake:=0.00
+      return
 
-ResetCounter:
-  TotalCurrentRake:=0
-  GuiControl,, TotalCurrentRake,0 
-Return
+      ResetCounter:
+        TotalCurrentRake:=0
+        GuiControl,, TotalCurrentRake,0 
+      Return
 
-GuiClose:
-  ExitApp
-Return
+      GuiClose:
+        ExitApp
+      Return
