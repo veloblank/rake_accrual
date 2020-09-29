@@ -31,7 +31,7 @@ TableCounter:
     IF hwnd not in %TableHwndList% 
     { 
       WinGetTitle,Title,ahk_id%hwnd%
-      IF InStr(Title," Logged in as ")
+      IF InStr(Title," Logged In as Edie Shockpaw ")
       {
         IF InStr(Title," $100 ")
         {
