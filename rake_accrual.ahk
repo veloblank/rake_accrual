@@ -7,6 +7,12 @@ SetFormat, Float, 0.2
 numtables:=0
 TotalRake:=0.00
 TotalTables:=0
+Total1Tables:=0
+Total5Tables:=0
+Total10Tables:=0
+Total20Tables:=0
+Total50Tables:=0
+Total100Tables:=0
 
 Menu,TableCounter, Add, Minimize To Tray, Minimize
 Menu,TableCounter, Add, Reset Counter, ResetCounter
@@ -20,6 +26,8 @@ Gui,Margin,5,5,5,5
 Gui, Add, Text, Center w25 vMyControl, 0
 Gui, Add, Text, Left x+5 cFF8C00 vTotalRake, $0.00
 Gui, Show, AutoSize, Rake
+Gui, Add, Text, Center x+5 cGreen vTotal5Tables, 0
+Gui, Add, Text, Center x+5 cRed vTotal10Tables, 0
 Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
 TableCounterHwnd:=winExist()
 
@@ -45,6 +53,7 @@ TableCounter:
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake+= 0.40
         TotalTables+= 1
+        Total5Tables+= 1
       }
     }
   }
