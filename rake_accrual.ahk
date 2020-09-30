@@ -6,6 +6,7 @@ SetFormat, Float, 0.2
 
 numtables:=0
 TotalRake:=0.00
+TotalTables:=0
 
 Menu,TableCounter, Add, Minimize To Tray, Minimize
 Menu,TableCounter, Add, Reset Counter, ResetCounter
@@ -13,12 +14,13 @@ Menu,TableCounter, Add, Exit, GuiClose
 
 Gui -MaximizeBox -MinimizeBox +AlwaysOnTop +Caption +LastFound +Border
 Gui, Color, 000000
-Gui, Font, s20 cWhite, Verdana
+Gui, Font, s18 cWhite, Verdana
 
-Gui,Margin,5,5
+Gui,Margin,5,5,5,5
 Gui, Add, Text, Center w25 vMyControl, 0
-Gui, Add, Text, Left x+5 w100 cFF8C00 vTotalRake, $0.00
+Gui, Add, Text, Left x+5 cFF8C00 vTotalRake, $0.00
 Gui, Show, AutoSize, Rake
+Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
 TableCounterHwnd:=winExist()
 
 OnMessage(0x201, "WM_LBUTTONDOWN")
@@ -42,6 +44,7 @@ TableCounter:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake+= 0.40
+        TotalTables+= 1
       }
     }
   }
@@ -61,7 +64,7 @@ return
 Submit:
   file := FileOpen("daily_rake.csv","a")
   FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalRake . ",")
+  file.write(TimeString . "," . TotalRake . "," . TotalTables . ",")
   file.close()
   FileAppend, `n, daily_rake.csv
   file.write(TableHwndList)
