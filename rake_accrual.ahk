@@ -58,6 +58,17 @@ TableCounter:
   }
 return
 
+Submit:
+  file := FileOpen("daily_rake.csv","a")
+  FormatTime, TimeString,, ShortDate
+  file.write(TimeString . "," . TotalRake . ",")
+  file.close()
+  FileAppend, `n, daily_rake.csv
+  file.write(TableHwndList)
+  file.close()
+  TotalRake:=0.00
+Return
+
 Minimize: 
   Gui, Minimize
   WinSetTitle, ahk_id%TableCounterHwnd%,, %numtables% // $%TotalRake%
