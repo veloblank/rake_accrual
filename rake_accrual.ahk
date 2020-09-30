@@ -108,7 +108,7 @@ Return
 
 Minimize: 
   Gui, Minimize
-  WinSetTitle, ahk_id%TableCounterHwnd%,, %numtables% // $%TotalRake%
+  WinSetTitle, ahk_id%TableCounterHwnd%,, %SaveTotalTablesOpened% // $%TotalRake%
 Return
 
 GuiSize:
