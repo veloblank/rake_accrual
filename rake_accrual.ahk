@@ -5,6 +5,7 @@ SetFormat, Float, 0.2
 #SingleInstance force
 
 numtables:=0
+SaveTotalTablesOpened:=0
 TotalRake:=0.00
 TotalTables:=0
 Total1Tables:=0
@@ -24,9 +25,10 @@ Gui,Margin,5,5,5,5
 Gui, Add, Text, Center w25 vMyControl, 0
 Gui, Add, Text, Left x+5 cFF8C00 vTotalRake, $0.00
 Gui, Show, AutoSize, Rake
-Gui, Add, Text, Left y+ cGreen vTotal5Tables, 0
-Gui, Add, Text, Left x+15 cRed vTotal10Tables, 0
-Gui, Add, Text, Left x+15 cWhite vTotal20Tables, 0
+Gui, Add, Text, Left y+ cBlack vTotal5Tables, 0
+Gui, Add, Text, Left x+15 cBlack vTotal10Tables, 0
+Gui, Add, Text, Left x+15 cBlack vTotal20Tables, 0
+Gui, Add, Text, Left x+15 cWhite vSaveTotalTablesOpened, 0
 Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
 TableCounterHwnd:=winExist()
 
@@ -53,6 +55,8 @@ TableCounter:
         TotalRake+= 0.40
         TotalTables+= 1
         Total5Tables+= 1
+        Gui Font, cGreen
+        GuiControl Font, Total5Tables
       } 
       Else IF InStr(Title, "$10") AND InStr(Title, " Logged In as ")
       {
@@ -60,7 +64,8 @@ TableCounter:
         TotalRake+= 0.77
         TotalTables+= 1
         Total10Tables+= 1
-
+        Gui Font, cYellow
+        GuiControl Font, Total10Tables
       }
       Else IF InStr(Title, "$20") AND InStr(Title, " Logged In as ")
       {
@@ -68,6 +73,8 @@ TableCounter:
         TotalRake+= 1.50
         TotalTables+= 1
         Total20Tables+= 1
+        Gui Font, cRed
+        GuiControl Font, Total20Tables
       }
     }
   }
@@ -78,19 +85,20 @@ TableCounter:
       WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% // %TotalRake% 
 
     lasttables = %numtables%
-    SaveTotalTablesOpened = $%TotalRake%
+    SaveTotalTablesOpened = %Total5Tables% + %Total10Tables% + %Total20Tables%
     GuiControl,, MyControl, %numtables%
     GuiControl,, TotalRake, $%TotalRake%
     GuiControl,, Total5Tables, %Total5Tables%
     GuiControl,, Total10Tables, %Total10Tables%
     GuiControl,, Total20Tables, %Total20Tables%
+    GuiControl,, SaveTotalTablesOpened, %SaveTotalTablesOpened%
   }
 return
 
 Submit:
   file := FileOpen("daily_rake.csv","a")
   FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalRake . "," . TotalTables . ",")
+  file.write(TimeString . "," . TotalRake . "," . TotalTables . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
   file.close()
   FileAppend, `n, daily_rake.csv
   file.write(TableHwndList)
