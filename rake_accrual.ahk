@@ -11,8 +11,6 @@ Total1Tables:=0
 Total5Tables:=0
 Total10Tables:=0
 Total20Tables:=0
-Total50Tables:=0
-Total100Tables:=0
 
 Menu,TableCounter, Add, Minimize To Tray, Minimize
 Menu,TableCounter, Add, Reset Counter, ResetCounter
@@ -26,8 +24,9 @@ Gui,Margin,5,5,5,5
 Gui, Add, Text, Center w25 vMyControl, 0
 Gui, Add, Text, Left x+5 cFF8C00 vTotalRake, $0.00
 Gui, Show, AutoSize, Rake
-Gui, Add, Text, Center x+5 cGreen vTotal5Tables, 0
-Gui, Add, Text, Center x+5 cRed vTotal10Tables, 0
+Gui, Add, Text, Left y+ cGreen vTotal5Tables, 0
+Gui, Add, Text, Left x+15 cRed vTotal10Tables, 0
+Gui, Add, Text, Left x+15 cWhite vTotal20Tables, 0
 Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
 TableCounterHwnd:=winExist()
 
@@ -54,6 +53,21 @@ TableCounter:
         TotalRake+= 0.40
         TotalTables+= 1
         Total5Tables+= 1
+      } 
+      Else IF InStr(Title, "$10") AND InStr(Title, " Logged In as ")
+      {
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+        TotalRake+= 0.77
+        TotalTables+= 1
+        Total10Tables+= 1
+
+      }
+      Else IF InStr(Title, "$20") AND InStr(Title, " Logged In as ")
+      {
+        TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
+        TotalRake+= 1.50
+        TotalTables+= 1
+        Total20Tables+= 1
       }
     }
   }
@@ -63,10 +77,13 @@ TableCounter:
     IF TrayCounter 
       WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% // %TotalRake% 
 
-    GuiControl,, MyControl, %numtables%
     lasttables = %numtables%
     SaveTotalTablesOpened = $%TotalRake%
+    GuiControl,, MyControl, %numtables%
     GuiControl,, TotalRake, $%TotalRake%
+    GuiControl,, Total5Tables, %Total5Tables%
+    GuiControl,, Total10Tables, %Total10Tables%
+    GuiControl,, Total20Tables, %Total20Tables%
   }
 return
 
