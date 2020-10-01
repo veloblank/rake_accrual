@@ -4,17 +4,16 @@ SetWorkingDir %A_ScriptDir%
 SetFormat, Float, 0.2
 #SingleInstance force
 
-numtables:=0
+RunningTables:=0
 TotalRake:=0.00
 TotalTablesOpened:=0
-Total1Tables:=0
 Total5Tables:=0
 Total10Tables:=0
 Total20Tables:=0
 
-Menu,TableCounter, Add, Minimize To Tray, Minimize
-Menu,TableCounter, Add, Reset Counter, ResetCounter
-Menu,TableCounter, Add, Exit, GuiClose
+Menu,RakeAccrual, Add, Minimize To Tray, Minimize
+Menu,RakeAccrual, Add, Reset Counter, ResetCounter
+Menu,RakeAccrual, Add, Exit, GuiClose
 
 Gui -MaximizeBox -MinimizeBox +AlwaysOnTop +Caption +LastFound +Border
 Gui, Color, 000000
@@ -22,29 +21,29 @@ Gui, Font, s18 cWhite, Verdana
 
 Gui,Margin,5,5,5,5
 Gui, Add, Text, Center w25 vMyControl, 0
-Gui, Add, Text, Left x+5 cFF8C00 vTotalRake, $0.00
+Gui, Add, Text, Left x+5 w25 cFF8C00 vTotalRake, $0.00
 Gui, Show, AutoSize, Rake
 Gui, Add, Text, Left y+ cBlack vTotal5Tables, 0
 Gui, Add, Text, Left x+15 cBlack vTotal10Tables, 0
 Gui, Add, Text, Left x+15 cBlack vTotal20Tables, 0
 Gui, Add, Text, Left x+15 cWhite vTotalTablesOpened, 0
 Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
-TableCounterHwnd:=winExist()
+RakeAccrualHwnd:=winExist()
 
 OnMessage(0x201, "WM_LBUTTONDOWN")
-SetTimer,TableCounter,1000
+SetTimer,RakeAccrual,3000
 Return 
 
-TableCounter:
+RakeAccrual:
 
-  numtables := 0
+  RunningTables := 0
 
   WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
   Loop,%Id%
   {
     hwnd:=Id%A_index%
 
-    numtables += 1
+    RunningTables += 1
     IF hwnd not in %TableHwndList% 
     { 
       WinGetTitle, Title, ahk_id%hwnd%
@@ -78,14 +77,16 @@ TableCounter:
     }
   }
 
-  IF (numtables != lasttables) OR (SaveTotalTablesOpened != TotalTablesOpened)
+  IF (RunningTables != LastCheckedNumTables) OR (SavedTotalTablesOpened != TotalTablesOpened)
   {	
-    IF TrayCounter 
-      WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% // %TotalRake% 
+    IF TrayCounter
+    {
+      WinSetTitle,Ahk_id%RakeAccrualHwnd%,,%RunningTables% // %TotalRake% 
+    } 
 
-    lasttables = %numtables%
-    SaveTotalTablesOpened = %TotalTablesOpened%
-    GuiControl,, MyControl, %numtables%
+    LastCheckedNumTables = %RunningTables%
+    SavedTotalTablesOpened = %TotalTablesOpened%
+    GuiControl,, MyControl, %RunningTables%
     GuiControl,, TotalRake, $%TotalRake%
     GuiControl,, Total5Tables, %Total5Tables%
     GuiControl,, Total10Tables, %Total10Tables%
@@ -97,23 +98,17 @@ Return
 Submit:
   file := FileOpen("daily_rake.csv","a")
   FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalRake . "," . TotalTables . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
+  file.write(TimeString . "," . TotalRake . "," . TotalTablesOpened . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
   file.close()
   FileAppend, `n, daily_rake.csv
   file.write(TableHwndList)
   file.close()
-  TotalRake:=0.00
-  TotalTablesOpened:=0
-  Total1Tables:=0
-  Total5Tables:=0
-  Total10Tables:=0
-  Total20Tables:=0
-
+  Gosub, ResetCounter 
 Return
 
 Minimize: 
   Gui, Minimize
-  WinSetTitle, ahk_id%TableCounterHwnd%,, %SaveTotalTablesOpened% // $%TotalRake%
+  WinSetTitle, ahk_id%RakeAccrualHwnd%,, %SavedTotalTablesOpened% // $%TotalRake%
 Return
 
 GuiSize:
@@ -122,12 +117,18 @@ GuiSize:
 Return
 
 GuiContextMenu:
-  Menu, TableCounter, Show 
+  Menu, RakeAccrual, Show 
 Return
 
 ResetCounter:
-  TotalRake:=0
+  TotalRake:=0.00
+  Total5Tables:=0
+  Total10Tables:=0
+  Total20Tables:=0
   GuiControl,, TotalRake,0 
+  GuiControl,, Total5Tables,0 
+  GuiControl,, Total10Tables,0 
+  GuiControl,, Total20Tables,0 
 Return
 
 GuiClose:
