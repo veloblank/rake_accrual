@@ -5,9 +5,8 @@ SetFormat, Float, 0.2
 #SingleInstance force
 
 numtables:=0
-SaveTotalTablesOpened:=0
 TotalRake:=0.00
-TotalTables:=0
+TotalTablesOpened:=0
 Total1Tables:=0
 Total5Tables:=0
 Total10Tables:=0
@@ -28,7 +27,7 @@ Gui, Show, AutoSize, Rake
 Gui, Add, Text, Left y+ cBlack vTotal5Tables, 0
 Gui, Add, Text, Left x+15 cBlack vTotal10Tables, 0
 Gui, Add, Text, Left x+15 cBlack vTotal20Tables, 0
-Gui, Add, Text, Left x+15 cWhite vSaveTotalTablesOpened, 0
+Gui, Add, Text, Left x+15 cWhite vTotalTablesOpened, 0
 Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
 TableCounterHwnd:=winExist()
 
@@ -52,48 +51,48 @@ TableCounter:
       IF InStr(Title, "$5") AND InStr(Title, " Logged In as ")
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalRake+= 0.40
-        TotalTables+= 1
-        Total5Tables+= 1
+        TotalRake += 0.40
+        TotalTablesOpened += 1
+        Total5Tables += 1
         Gui Font, cGreen
         GuiControl Font, Total5Tables
       } 
       Else IF InStr(Title, "$10") AND InStr(Title, " Logged In as ")
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalRake+= 0.77
-        TotalTables+= 1
-        Total10Tables+= 1
+        TotalRake += 0.77
+        TotalTablesOpened += 1
+        Total10Tables += 1
         Gui Font, cYellow
         GuiControl Font, Total10Tables
       }
       Else IF InStr(Title, "$20") AND InStr(Title, " Logged In as ")
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
-        TotalRake+= 1.50
-        TotalTables+= 1
-        Total20Tables+= 1
+        TotalRake += 1.50
+        TotalTablesOpened += 1
+        Total20Tables += 1
         Gui Font, cRed
         GuiControl Font, Total20Tables
       }
     }
   }
 
-  IF (numtables != lasttables) OR (SaveTotalTablesOpened != TotalRake)
+  IF (numtables != lasttables) OR (SaveTotalTablesOpened != TotalTablesOpened)
   {	
     IF TrayCounter 
       WinSetTitle,Ahk_id%TableCounterHwnd%,,%numtables% // %TotalRake% 
 
     lasttables = %numtables%
-    SaveTotalTablesOpened = %Total5Tables% + %Total10Tables% + %Total20Tables%
+    SaveTotalTablesOpened = %TotalTablesOpened%
     GuiControl,, MyControl, %numtables%
     GuiControl,, TotalRake, $%TotalRake%
     GuiControl,, Total5Tables, %Total5Tables%
     GuiControl,, Total10Tables, %Total10Tables%
     GuiControl,, Total20Tables, %Total20Tables%
-    GuiControl,, SaveTotalTablesOpened, %SaveTotalTablesOpened%
+    GuiControl,, TotalTablesOpened, %TotalTablesOpened%
   }
-return
+Return
 
 Submit:
   file := FileOpen("daily_rake.csv","a")
@@ -104,6 +103,12 @@ Submit:
   file.write(TableHwndList)
   file.close()
   TotalRake:=0.00
+  TotalTablesOpened:=0
+  Total1Tables:=0
+  Total5Tables:=0
+  Total10Tables:=0
+  Total20Tables:=0
+
 Return
 
 Minimize: 
