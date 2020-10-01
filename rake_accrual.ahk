@@ -98,7 +98,7 @@ Return
 Submit:
   file := FileOpen("daily_rake.csv","a")
   FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalRake . "," . TotalTablesOpened . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
+  file.write(TimeString . "," . TotalRake . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
   file.close()
   FileAppend, `n, daily_rake.csv
   file.write(TableHwndList)
