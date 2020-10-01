@@ -21,12 +21,12 @@ Gui, Font, s18 cWhite, Verdana
 
 Gui,Margin,5,5,5,5
 Gui, Add, Text, Center w25 vMyControl, 0
-Gui, Add, Text, Left x+5 w25 cFF8C00 vTotalRake, $0.00
+Gui, Add, Text, Left x+5 w40 cFF8C00 vTotalRake, $0.00
 Gui, Show, AutoSize, Rake
-Gui, Add, Text, Left y+ cBlack vTotal5Tables, 0
-Gui, Add, Text, Left x+15 cBlack vTotal10Tables, 0
-Gui, Add, Text, Left x+15 cBlack vTotal20Tables, 0
-Gui, Add, Text, Left x+15 cWhite vTotalTablesOpened, 0
+Gui, Add, Text, Left w25 y+ cBlack vTotal5Tables, 0
+Gui, Add, Text, Left w25 x+15 cBlack vTotal10Tables, 0
+Gui, Add, Text, Left w25 x+15 cBlack vTotal20Tables, 0
+Gui, Add, Text, Left w25 x+15 cWhite vTotalTablesOpened, 0
 Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
 RakeAccrualHwnd:=winExist()
 
