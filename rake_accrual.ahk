@@ -125,7 +125,7 @@ ResetCounter:
   Total5Tables:=0
   Total10Tables:=0
   Total20Tables:=0
-  GuiControl,, TotalRake,0 
+  GuiControl,, TotalRake,$0.00 
   GuiControl,, Total5Tables,0 
   GuiControl,, Total10Tables,0 
   GuiControl,, Total20Tables,0 
