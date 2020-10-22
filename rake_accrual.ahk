@@ -1,5 +1,5 @@
 #NoEnv 
-SendMode Input 
+SendMode, Input 
 SetWorkingDir %A_ScriptDir% 
 SetFormat, Float, 0.2
 #SingleInstance force
@@ -49,8 +49,6 @@ RakeAccrual:
       WinGetTitle, Title, ahk_id%hwnd%
       IF InStr(Title, "ante")
       {
-        WinActivate, ahk_id %hwnd%
-        Sleep 200
         Send ^s
         AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
       }
