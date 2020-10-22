@@ -38,12 +38,17 @@ RakeAccrual:
 
   RunningTables := 0
 
-  WinGet, Id, list, ahk_class PokerStarsTableFrameClass,, Program Manager
+  WinGet, Id, list, ahk_class GLFW30,, Program Manager
   Loop,%Id%
   {
     hwnd:=Id%A_index%
 
     RunningTables += 1
+    IF hwnd not in %AnteCheck% AND InStr(Title, " ante ")
+    {
+      AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
+      Send ^s
+    }
     IF hwnd not in %TableHwndList% 
     { 
       WinGetTitle, Title, ahk_id%hwnd%
