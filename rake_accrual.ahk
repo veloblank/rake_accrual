@@ -44,10 +44,14 @@ RakeAccrual:
     hwnd:=Id%A_index%
 
     RunningTables += 1
-    IF hwnd not in %AnteCheck% AND InStr(Title, " ante ")
+    IF hwnd not in %AnteCheck% 
     {
-      AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
-      Send ^s
+      WinGetTitle, Title, ahk_id%hwnd%
+      IF InStr(Title, " 200 ")
+      {
+        Send ^s
+        AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
+      }
     }
     IF hwnd not in %TableHwndList% 
     { 
