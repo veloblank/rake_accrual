@@ -47,8 +47,10 @@ RakeAccrual:
     IF hwnd not in %AnteCheck% 
     {
       WinGetTitle, Title, ahk_id%hwnd%
-      IF InStr(Title, " 200 ")
+      IF InStr(Title, "ante")
       {
+        WinActivate, ahk_id %hwnd%
+        Sleep 200
         Send ^s
         AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
       }
