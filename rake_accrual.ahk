@@ -47,7 +47,7 @@ RakeAccrual:
     IF hwnd not in %AnteCheck% 
     {
       WinGetTitle, Title, ahk_id%hwnd%
-      IF InStr(Title, "75/150")
+      IF InStr(Title, "50/100")
       {
         WinActivate ahk_id %hwnd%
         Sleep 200
