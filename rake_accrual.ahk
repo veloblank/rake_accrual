@@ -49,9 +49,12 @@ RakeAccrual:
       WinGetTitle, Title, ahk_id%hwnd%
       IF InStr(Title, "75/150")
       {
-        WinActivate ahk_id %hwnd%
-        Sleep 200
-        Send ^s
+        IF %LastCheckedNumTables% < 5
+        {
+          WinActivate ahk_id %hwnd%
+          Sleep 200
+          Send ^s
+        }
         AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
       }
     }
