@@ -44,20 +44,6 @@ RakeAccrual:
     hwnd:=Id%A_index%
 
     RunningTables += 1
-    IF hwnd not in %AnteCheck% 
-    {
-      WinGetTitle, Title, ahk_id%hwnd%
-      IF InStr(Title, "75/150")
-      {
-        IF %LastCheckedNumTables% < 5
-        {
-          WinActivate ahk_id %hwnd%
-          Sleep 200
-          Send ^s
-        }
-        AnteCheck:= AnteCheck ? AnteCheck . "," . hwnd : hwnd
-      }
-    }
     IF hwnd not in %TableHwndList% 
     { 
       WinGetTitle, Title, ahk_id%hwnd%
