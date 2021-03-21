@@ -10,24 +10,28 @@ TotalTablesOpened:=0
 Total5Tables:=0
 Total10Tables:=0
 Total20Tables:=0
+Goal:=77.00
 
 Menu,RakeAccrual, Add, Minimize To Tray, Minimize
 Menu,RakeAccrual, Add, Reset Counter, ResetCounter
 Menu,RakeAccrual, Add, Exit, GuiClose
 
-Gui -MaximizeBox -MinimizeBox +AlwaysOnTop +Caption +LastFound +Border
+Gui +MaximizeBox +Resize -MinimizeBox +AlwaysOnTop +Caption +LastFound +Border
 Gui, Color, 000000
 Gui, Font, s18 cWhite, Verdana
 
-Gui,Margin,5,10,5,10
+Gui,Margin,2,5,2,5
+Gui, Font, s14
 Gui, Add, Text, Center w25 vMyControl, 0
 Gui, Add, Text, Left x+10 w40 cFF8C00 vTotalRake, $0.00
-Gui, Show, AutoSize, Rake
+Gui, Add, Text, Left x+10 w30 cFF0000, Goal:
+Gui, Add, Text, Left x+10 w30 cFF0000 vGoal, 77.00
+Gui, Show, AutoSize Center, Rake
 Gui, Add, Text, Left w25 y+ cBlack vTotal5Tables, 0
 Gui, Add, Text, Left w25 x+15 cBlack vTotal10Tables, 0
 Gui, Add, Text, Left w25 x+15 cBlack vTotal20Tables, 0
 Gui, Add, Text, Left w50 x+15 cWhite vTotalTablesOpened, 0
-Gui, Add, Button, x+25 y7 Center w100 h25 gSubmit, Submit
+Gui, Add, Button, x245 y3 Center w100 h25 gStart vstartButton, Start
 RakeAccrualHwnd:=winExist()
 
 OnMessage(0x201, "WM_LBUTTONDOWN")
@@ -51,6 +55,7 @@ RakeAccrual:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake += 0.40
+        Goal -= 0.40
         TotalTablesOpened += 1
         Total5Tables += 1
         Gui Font, cGreen
@@ -60,6 +65,7 @@ RakeAccrual:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake += 0.77
+        Goal -= 0.77
         TotalTablesOpened += 1
         Total10Tables += 1
         Gui Font, cYellow
@@ -69,6 +75,7 @@ RakeAccrual:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake += 1.50
+        Goal -= 1.50
         TotalTablesOpened += 1
         Total20Tables += 1
         Gui Font, cRed
@@ -92,18 +99,26 @@ RakeAccrual:
     GuiControl,, Total10Tables, %Total10Tables%
     GuiControl,, Total20Tables, %Total20Tables%
     GuiControl,, TotalTablesOpened, %TotalTablesOpened%
+    GuiControl,, Goal, %Goal%
   }
 Return
 
-Submit:
-  file := FileOpen("daily_rake.csv","a")
-  FormatTime, TimeString,, ShortDate
-  file.write(TimeString . "," . TotalRake . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
-  file.close()
-  FileAppend, `n, daily_rake.csv
-  file.write(TableHwndList)
-  file.close()
-  Gosub, ResetCounter 
+; Submit:
+;   file := FileOpen("daily_rake.csv","a")
+;   FormatTime, TimeString,, ShortDate
+;   file.write(TimeString . "," . TotalRake . "," . Total5Tables . "," . Total10Tables . "," . Total20Tables . ",")
+;   file.close()
+;   FileAppend, `n, daily_rake.csv
+;   file.write(TableHwndList)
+;   file.close()
+;   Gosub, ResetCounter 
+; Return
+
+Start:
+  GuiControl,Hide,startButton
+Return
+
+editGoal:
 Return
 
 Minimize: 
@@ -131,6 +146,8 @@ ResetCounter:
   GuiControl,, Total20Tables,0 
 Return
 
+^!r::Reload ; Ctrl+Alt+R
+
 GuiClose:
-  ExitApp
+ExitApp
 Return
