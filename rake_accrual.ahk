@@ -10,7 +10,8 @@ TotalTablesOpened:=0
 Total5Tables:=0
 Total10Tables:=0
 Total20Tables:=0
-Goal:=77.00
+rakeGoal:=77.00
+volGoal:=100
 
 Menu,RakeAccrual, Add, Minimize To Tray, Minimize
 Menu,RakeAccrual, Add, Reset Counter, ResetCounter
@@ -23,15 +24,15 @@ Gui, Font, s18 cWhite, Verdana
 Gui,Margin,2,5,2,5
 Gui, Font, s14
 Gui, Add, Text, Center w25 vMyControl, 0
-Gui, Add, Text, Left x+10 w40 cFF8C00 vTotalRake, $0.00
-Gui, Add, Text, Left x+10 w30 cFF0000, Goal:
-Gui, Add, Text, Left x+10 w30 cFF0000 vGoal, 77.00
+Gui, Add, Text, Left x+10 w45 cFF8C00 vTotalRake, $0.00
+Gui, Add, Text, Left x+10 w30 cFF0000 vrakeGoal, 77.00
+Gui, Add, Text, Left x+10 w30 cYellow vvolGoal, 100
 Gui, Show, AutoSize Center, Rake
-Gui, Add, Text, Left w25 y+ cBlack vTotal5Tables, 0
-Gui, Add, Text, Left w25 x+15 cBlack vTotal10Tables, 0
-Gui, Add, Text, Left w25 x+15 cBlack vTotal20Tables, 0
-Gui, Add, Text, Left w50 x+15 cWhite vTotalTablesOpened, 0
-Gui, Add, Button, x245 y3 Center w100 h25 gStart vstartButton, Start
+Gui, Add, Text, Left w25 x8 y+ cWhite vTotal5Tables, 0
+Gui, Add, Text, Left w25 x+15 cWhite vTotal10Tables, 0
+Gui, Add, Text, Left w25 x+15 cWhite vTotal20Tables, 0
+Gui, Add, Text, Left w50 x+55 cWhite vTotalTablesOpened, 0
+;Gui, Add, Button, x245 y3 Center w100 h25 gStart vstartButton, Start
 RakeAccrualHwnd:=winExist()
 
 OnMessage(0x201, "WM_LBUTTONDOWN")
@@ -55,8 +56,9 @@ RakeAccrual:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake += 0.40
-        Goal -= 0.40
+        rakeGoal -= 0.40
         TotalTablesOpened += 1
+        volGoal -= 1
         Total5Tables += 1
         Gui Font, cGreen
         GuiControl Font, Total5Tables
@@ -65,8 +67,9 @@ RakeAccrual:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake += 0.77
-        Goal -= 0.77
+        rakeGoal -= 0.77
         TotalTablesOpened += 1
+        volGoal -= 1
         Total10Tables += 1
         Gui Font, cYellow
         GuiControl Font, Total10Tables
@@ -75,8 +78,9 @@ RakeAccrual:
       {
         TableHwndList:= TableHwndList ? TableHwndList . "," . hwnd : hwnd
         TotalRake += 1.50
-        Goal -= 1.50
+        rakeGoal -= 1.50
         TotalTablesOpened += 1
+        volGoal -= 1
         Total20Tables += 1
         Gui Font, cRed
         GuiControl Font, Total20Tables
@@ -99,7 +103,8 @@ RakeAccrual:
     GuiControl,, Total10Tables, %Total10Tables%
     GuiControl,, Total20Tables, %Total20Tables%
     GuiControl,, TotalTablesOpened, %TotalTablesOpened%
-    GuiControl,, Goal, %Goal%
+    GuiControl,, rakeGoal, %rakeGoal%
+    GuiControl,, volGoal, %volGoal%
   }
 Return
 
@@ -118,7 +123,7 @@ Start:
   GuiControl,Hide,startButton
 Return
 
-editGoal:
+editrakeGoal:
 Return
 
 Minimize: 
