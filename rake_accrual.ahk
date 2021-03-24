@@ -10,7 +10,7 @@ TotalTablesOpened:=0
 Total5Tables:=0
 Total10Tables:=0
 Total20Tables:=0
-rakeGoal:=77.00
+rakeGoal:=40.00
 volGoal:=100
 
 Menu,RakeAccrual, Add, Minimize To Tray, Minimize
@@ -25,7 +25,7 @@ Gui,Margin,2,5,2,5
 Gui, Font, s14
 Gui, Add, Text, Center w25 vMyControl, 0
 Gui, Add, Text, Left x+10 w45 cFF8C00 vTotalRake, $0.00
-Gui, Add, Text, Left x+10 w30 cFF0000 vrakeGoal, 77.00
+Gui, Add, Text, Left x+10 w30 cFF0000 vrakeGoal, 40.00
 Gui, Add, Text, Left x+10 w30 cYellow vvolGoal, 100
 Gui, Show, AutoSize Center, Rake
 Gui, Add, Text, Left w25 x8 y+ cWhite vTotal5Tables, 0
