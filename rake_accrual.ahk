@@ -10,8 +10,8 @@ TotalTablesOpened:=0
 Total5Tables:=0
 Total10Tables:=0
 Total20Tables:=0
-rakeGoal:=40.00
-volGoal:=100
+rakeGoal:=45.00
+volGoal:=30
 
 Menu,RakeAccrual, Add, Minimize To Tray, Minimize
 Menu,RakeAccrual, Add, Reset Counter, ResetCounter
